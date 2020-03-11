@@ -24,7 +24,8 @@ public class Main {
 
 		logic.sortByNumber(trains);
 		logic.sortByStationAndDate(trains);
-
+			
 		view.print(trains);
+		
 	}
 }

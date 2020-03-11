@@ -70,7 +70,7 @@ public class TrainLogic {
 
 	public List<Integer> findDublicateStations(List<Train> trains, int from) {
 		List<Integer> result = new ArrayList<Integer>();
-		
+
 		String firstStationName;
 		String nextStationName;
 		String lastStationName;
@@ -101,112 +101,43 @@ public class TrainLogic {
 	}
 
 	public void sortByDate(List<Train> trains, int start, int end) {
-		sortByMonth(trains, start, end);
-		for (int i = start; i <= end; i++) {
+		for (int i = start; i < end; i++) {
 			int minTrainDate = trains.get(i).getDate().getYear();
+			int minTrainDateMinute = trains.get(i).getDate().getMinute();
+			int minTrainDateHour = trains.get(i).getDate().getHour();
+			int minTrainDateDay = trains.get(i).getDate().getDay();
+			int minTrainDateMonth = trains.get(i).getDate().getMonth();
+			
 			int minTrainDateIndex = i;
 
 			for (int j = i + 1; j <= end; j++) {
 				Train currentTrain = trains.get(j);
 
-				if (minTrainDate > currentTrain.getDate().getYear()) {
+				if (minTrainDate == currentTrain.getDate().getYear()) {
+					if (minTrainDateMonth == currentTrain.getDate().getMonth()) {
+						if (minTrainDateDay == currentTrain.getDate().getDay()) {
+							if (minTrainDateHour == currentTrain.getDate().getHour()) {
+								if (minTrainDateMinute > currentTrain.getDate().getMinute()) {
+									minTrainDateIndex = j;
+									minTrainDateMinute = currentTrain.getDate().getMinute();
+								}
+							} else if (minTrainDateHour > currentTrain.getDate().getHour()) {
+								minTrainDateIndex = j;
+								minTrainDateHour = currentTrain.getDate().getHour();
+							}
+						} else if (minTrainDateDay > currentTrain.getDate().getDay()) {
+							minTrainDateIndex = j;
+							minTrainDateDay = currentTrain.getDate().getDay();
+						}
+					} else if (minTrainDateMonth > currentTrain.getDate().getMonth()) {
+						minTrainDateIndex = j;
+						minTrainDateMonth = currentTrain.getDate().getMonth();
+					}
+				} else if (minTrainDate > currentTrain.getDate().getYear()) {
 					minTrainDate = currentTrain.getDate().getYear();
 					minTrainDateIndex = j;
 				}
 			}
-
-			Train temp1 = trains.get(i);
-			Train temp2 = trains.get(minTrainDateIndex);
-
-			trains.set(i, temp2);
-			trains.set(minTrainDateIndex, temp1);
-		}
-	}
-
-	public void sortByMonth(List<Train> trains, int start, int end) {
-
-		for (int i = start; i <= end; i++) {
-			int minTrainDate = trains.get(i).getDate().getMonth();
-			int minTrainDateIndex = i;
-
-			for (int j = i + 1; j <= end; j++) {
-				Train currentTrain = trains.get(j);
-
-				if (minTrainDate > currentTrain.getDate().getMonth()) {
-					minTrainDate = currentTrain.getDate().getMonth();
-					minTrainDateIndex = j;
-				}
-			}
-
-			Train temp1 = trains.get(i);
-			Train temp2 = trains.get(minTrainDateIndex);
-
-			trains.set(i, temp2);
-			trains.set(minTrainDateIndex, temp1);
-		}
-	}
-
-	public void sortByDay(List<Train> trains, int start, int end) {
-		sortByMonth(trains, start, end);
-		for (int i = start; i <= end; i++) {
-			int minTrainDate = trains.get(i).getDate().getDay();
-			int minTrainDateIndex = i;
-
-			for (int j = i + 1; j <= end; j++) {
-				Train currentTrain = trains.get(j);
-
-				if (minTrainDate > currentTrain.getDate().getDay()) {
-					minTrainDate = currentTrain.getDate().getDay();
-					minTrainDateIndex = j;
-				}
-			}
-
-			Train temp1 = trains.get(i);
-			Train temp2 = trains.get(minTrainDateIndex);
-
-			trains.set(i, temp2);
-			trains.set(minTrainDateIndex, temp1);
-		}
-	}
-
-	public void sortByHour(List<Train> trains, int start, int end) {
-		sortByDay(trains, start, end);
-		for (int i = start; i <= end; i++) {
-			int minTrainDate = trains.get(i).getDate().getHour();
-			int minTrainDateIndex = i;
-
-			for (int j = i + 1; j <= end; j++) {
-				Train currentTrain = trains.get(j);
-
-				if (minTrainDate > currentTrain.getDate().getHour()) {
-					minTrainDate = currentTrain.getDate().getHour();
-					minTrainDateIndex = j;
-				}
-			}
-
-			Train temp1 = trains.get(i);
-			Train temp2 = trains.get(minTrainDateIndex);
-
-			trains.set(i, temp2);
-			trains.set(minTrainDateIndex, temp1);
-		}
-	}
-
-	public void sortByMinute(List<Train> trains, int start, int end) {
-		sortByHour(trains, start, end);
-		for (int i = start; i <= end; i++) {
-			int minTrainDate = trains.get(i).getDate().getMinute();
-			int minTrainDateIndex = i;
-
-			for (int j = i + 1; j <= end; j++) {
-				Train currentTrain = trains.get(j);
-
-				if (minTrainDate > currentTrain.getDate().getMinute()) {
-					minTrainDate = currentTrain.getDate().getMinute();
-					minTrainDateIndex = j;
-				}
-			}
-
 			Train temp1 = trains.get(i);
 			Train temp2 = trains.get(minTrainDateIndex);
 
